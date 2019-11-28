@@ -23,7 +23,7 @@ class Register extends React.Component {
               <Form.Input fluid name="password" icon="lock" iconPosition="left" placeHolder="Password" onChange={this.handleChange} type="password" /> 
               <Form.Input fluid name="passwordConfirmation" icon="repeat" iconPosition="left" placeHolder="Password" onChange={this.handleChange} type="password" /> 
 
-              <button class="ui secondary button" color="black" fluid size="large">Submit</button>
+              <Button class="ui secondary button" color="black" fluid size="large">Submit</Button>
             </Segment>
           </Form>
           <Message>Already a user<Link to="/login"> Login</Link></Message>
