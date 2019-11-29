@@ -1,17 +1,45 @@
 import React from 'react';
-import {  Grid, Form, Button, Header, Message, Icon, Segment } from 'semantic-ui-react';
+import firebase from '../../firebase';
+import {  
+  Grid, 
+  Form, 
+  Button, 
+  Header, 
+  Message, 
+  Icon, 
+  Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 // stateful component
 class Register extends React.Component {
-  state = {};
+  state = {
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirmation: ''
+  };
 
   
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(createdUser => {
+        console.log(createdUser);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   render() {
+    const { username, email, password, passwordConfirmation } = this.state;
+
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
@@ -21,7 +49,7 @@ class Register extends React.Component {
             Register for BlackDevChat
           </Header>
 
-          <Form size="large">
+          <Form onSubmit={this.handleSubmit} size="large">
             <Segment stacked> 
 
               <Form.Input 
@@ -31,6 +59,7 @@ class Register extends React.Component {
               iconPosition="left" 
               placeHolder="Username" 
               onChange={this.handleChange} 
+              value={username}
               type="text" 
               />
 
@@ -41,6 +70,7 @@ class Register extends React.Component {
               iconPosition="left" 
               placeHolder="Email Address" 
               onChange={this.handleChange} 
+              value={email}
               type="email" /> 
 
               <Form.Input 
@@ -50,6 +80,7 @@ class Register extends React.Component {
               iconPosition="left" 
               placeHolder="Password" 
               onChange={this.handleChange} 
+              value={password}
               type="password" 
               /> 
 
@@ -59,6 +90,7 @@ class Register extends React.Component {
               iconPosition="left" 
               placeHolder="Password" 
               onChange={this.handleChange} 
+              value={passwordConfirmation}
               type="password" 
               /> 
 
