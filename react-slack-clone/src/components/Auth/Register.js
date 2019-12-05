@@ -33,6 +33,8 @@ class Register extends React.Component {
 
     } else if (!this.isPasswordValid(this.state)) {
       // throw an error
+      error = { message: 'Password is invalid' };
+      this.setState({ errors: errors.concat(error) });
     } else {
       // the form is valid 
       return true;
