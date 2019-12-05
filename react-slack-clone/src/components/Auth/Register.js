@@ -24,7 +24,8 @@ class Register extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = event => { 
+    if(this.isFormValid()) {
     event.preventDefault();
     firebase
       .auth()
@@ -35,6 +36,7 @@ class Register extends React.Component {
       .catch(err => {
         console.log(err);
       })
+    }
   }
 
   render() {
