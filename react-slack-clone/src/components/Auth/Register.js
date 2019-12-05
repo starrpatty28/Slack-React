@@ -21,7 +21,7 @@ class Register extends React.Component {
 
   //Check is the form is filled out function
   isFormValid = () => {
-    if(this.isFormEmpty()) {
+    if(this.isFormEmpty(this.state)) {
       //throw an errow
     } else if (!this.isPasswordValid()) {
       // throw an error
