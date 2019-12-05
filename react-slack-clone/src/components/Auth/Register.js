@@ -16,17 +16,25 @@ class Register extends React.Component {
     username: '',
     email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
+    errors: []
   };
 
   //Check is the form is filled out function
   isFormValid = () => {
+    let errors = [];
+    let errors;
+
     if(this.isFormEmpty(this.state)) {
       //throw an errow
+      error = { message: 'Fill in all fields' };
+      this.setState({ errors: errors.concat(error)});
+      return false;
+
     } else if (!this.isPasswordValid()) {
       // throw an error
     } else {
-      // the form is valid
+      // the form is valid 
       return true;
     }
   }
