@@ -19,6 +19,20 @@ class Register extends React.Component {
     passwordConfirmation: ''
   };
 
+  //Check is the form is filled out function
+  isFormValid = () => {
+    if(this.isFormEmpty()) {
+      //throw an errow
+    } else if (!this.isPasswordValid()) {
+      // throw an error
+    } else {
+      // the form is valid
+      return true;
+    }
+  }
+
+
+
   
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -26,16 +40,16 @@ class Register extends React.Component {
 
   handleSubmit = event => { 
     if(this.isFormValid()) {
-    event.preventDefault();
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(createdUser => {
-        console.log(createdUser);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      event.preventDefault();
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(createdUser => {
+          console.log(createdUser);
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   }
 
