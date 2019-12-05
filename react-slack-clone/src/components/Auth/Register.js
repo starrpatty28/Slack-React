@@ -31,7 +31,7 @@ class Register extends React.Component {
       this.setState({ errors: errors.concat(error)});
       return false;
 
-    } else if (!this.isPasswordValid()) {
+    } else if (!this.isPasswordValid(this.state)) {
       // throw an error
     } else {
       // the form is valid 
@@ -43,7 +43,15 @@ class Register extends React.Component {
     return !username.length || !email.length || !password.length || !passwordConfirmation.length;
   }
 
-
+isPasswordValid = ({ password, passwordConfirmation }) => {
+  if(password.length < 6 || passwordConfirmation.length < 6) {
+    return false;
+  } else if (password !== passwordConfirmation) {
+    return false;
+  } else {
+    return true;
+  }
+} 
 
   
   handleChange = event => {
