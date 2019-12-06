@@ -17,7 +17,8 @@ class Register extends React.Component {
     email: '',
     password: '',
     passwordConfirmation: '',
-    errors: []
+    errors: [],
+    loading: false
   };
 
   //Check is the form is filled out function
@@ -64,22 +65,41 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
   };
 
   handleSubmit = event => { 
+    event.preventDefault();
     if(this.isFormValid()) {
-      event.preventDefault();
+      this.setState({ errors: [], loading: true})
+      
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
           console.log(createdUser);
+          this.setState({ loading: false });
         })
         .catch(err => {
           console.log(err);
+          this.setState({ errors: this.state.errors.concat(err), loading: false });
         })
     }
   }
 
+  handleInputError = (errors, inputName) => {
+    return errors.some(error => 
+      error.message.toLowerCase().includes(inputName)
+      ) 
+        ? 'error' 
+        : '' 
+  }
+
   render() {
-    const { username, email, password, passwordConfirmation, errors } = this.state;
+    const { 
+      username, 
+      email, 
+      password, 
+      passwordConfirmation, 
+      errors,
+      loading 
+    } = this.state;
 
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
@@ -112,6 +132,7 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
               placeHolder="Email Address" 
               onChange={this.handleChange} 
               value={email}
+              className={this.handleInputError(errors, 'email')}
               type="email" /> 
 
               <Form.Input 
@@ -122,6 +143,7 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
               placeHolder="Password" 
               onChange={this.handleChange} 
               value={password}
+              className={this.handleInputError(errors, 'password')}
               type="password" 
               /> 
 
@@ -132,14 +154,17 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
               placeHolder="Password" 
               onChange={this.handleChange} 
               value={passwordConfirmation}
+              className={this.handleInputError(errors, 'password')}
               type="password" 
               /> 
 
               <Button 
-                class="ui secondary button" 
+                disabled={loading}
+                className={loading ? "loading" : ""} 
                 color="black" 
                 fluid 
-                size="large">
+                size="large"
+                >
                   Submit
               </Button> 
             </Segment>
