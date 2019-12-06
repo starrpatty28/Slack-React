@@ -76,9 +76,13 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
           console.log(createdUser);
           this.setState({ loading: false });
         })
+
+
         .catch(err => {
           console.log(err);
-          this.setState({ errors: this.state.errors.concat(err), loading: false });
+          this.setState({ 
+            errors: this.state.errors.concat(err), 
+            loading: false });
         })
     }
   }
