@@ -23,7 +23,7 @@ class Register extends React.Component {
   //Check is the form is filled out function
   isFormValid = () => {
     let errors = [];
-    let errors;
+    let error;
 
     if(this.isFormEmpty(this.state)) {
       //throw an errow
@@ -35,6 +35,7 @@ class Register extends React.Component {
       // throw an error
       error = { message: 'Password is invalid' };
       this.setState({ errors: errors.concat(error) });
+      return false;
     } else {
       // the form is valid 
       return true;
@@ -55,7 +56,9 @@ isPasswordValid = ({ password, passwordConfirmation }) => {
   }
 } 
 
-  
+displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p>);
+
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
