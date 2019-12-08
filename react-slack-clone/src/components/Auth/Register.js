@@ -127,7 +127,7 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
 
-          <Header as="h2" icon color="black" textAlign="center">
+          <Header as="h1" icon color="black" textAlign="center">
             <Icon name="wechat" color="black" />
             Register for BlackDevChat
           </Header>
