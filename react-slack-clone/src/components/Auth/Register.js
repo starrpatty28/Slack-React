@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../firebase';
+import md5 from 'md5';
 import {  
   Grid, 
   Form, 
@@ -67,17 +68,24 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
   handleSubmit = event => { 
     event.preventDefault();
     if(this.isFormValid()) {
-      this.setState({ errors: [], loading: true})
-      
+      this.setState({ errors: [], loading: true}) 
         firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
           console.log(createdUser);
-          this.setState({ loading: false });
+          createdUser.user.updateProfile({
+            displayName: this.state.username,
+           photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}`
+          })
+          .then(() => {
+            this.setState({ loading: false });
+          })
+          .catch(err => {
+            console.error(err);
+            this.setState({ errors: this.state.errors.concat(err), loading: false });
+          })
         })
-
-
         .catch(err => {
           console.log(err);
           this.setState({ 
