@@ -19,7 +19,8 @@ class Register extends React.Component {
     password: '',
     passwordConfirmation: '',
     errors: [],
-    loading: false
+    loading: false,
+    userRef: firebase.database().ref('users')
   };
 
   //Check is the form is filled out function
@@ -79,7 +80,9 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
            photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}`
           })
           .then(() => {
-            this.setState({ loading: false });
+            this.saveUser(createdUser).then(() => {
+              console.log('user saved');
+            });
           })
           .catch(err => {
             console.error(err);
@@ -93,6 +96,13 @@ displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p
             loading: false });
         })
     }
+  }
+
+  saveUser = createdUser => {
+    return this.state.userRef.child(createdUser.user.uid).set({
+      name: createdUser.user.displayName,
+      avatar: createdUser.user.photoURL 
+    })
   }
 
   handleInputError = (errors, inputName) => {
